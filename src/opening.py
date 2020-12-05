@@ -4,7 +4,7 @@ class Opening:
     _openings = {}
 
     def __init__(self):
-        
+        pass
 
     def _import_openings(self, file):
         self._openings = {
