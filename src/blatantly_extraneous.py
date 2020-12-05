@@ -25,25 +25,44 @@ class BlatantlyExtraneous:
         """
         return "Blatantly Extraneous"
 
+    def check_value(self, board):
+        if board.is_check():
+            if board.turn == chess.WHITE and self.is_white or (board.turn == chess.BLACK and not self.is_white):
+                return -20
+            else:
+                return 20
+        return 0
+
+    def legal_moves(self, board):
+        original = board.turn
+        board.turn = chess.WHITE
+        white_moves = len(list(board.legal_moves))
+        board.turn = chess.BLACK
+        black_moves = len(list(board.legal_moves))
+        board.turn = original
+        return white_moves - black_moves if self.is_white else black_moves - white_moves
+
     def heuristic(self, board):
         """
         Determine whose favor the board is in, and by how much.
         Positive values favor white, negative values favor black.
-
         Modify this. It sucks. Consider incorporating board state.
         At present, this just sums the scores of all the pieces.
-
         :param board:
         :return: Returns the estimated utility of the board state.
         """
-        # Evaluate scores of each piece
-        
         value = sum(
             get_piece_utility(board.piece_at(square))
             #attackers(board.piece_at(square))
             if board.piece_at(square) is not None else 0
             for square in chess.SQUARES
         )
+
+        value += self.check_value(board)
+        lm = self.legal_moves(board)
+        print(lm)
+        value += lm
+
 
         # If this is a draw, value is 0 (same for both players)
         if board.can_claim_draw():
