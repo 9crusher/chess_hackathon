@@ -5,13 +5,13 @@ import chess
 import chess.engine
 import chess.svg
 
-from stub import StubAgent
+from blatantly_extraneous import BlatantlyExtraneous
 
 def play():
     board = chess.Board()
 
-    white = StubAgent(True)
-    black = StubAgent(False)
+    white = BlatantlyExtraneous(True)
+    black = BlatantlyExtraneous(False)
 
     count = 0
 
