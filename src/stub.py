@@ -60,7 +60,7 @@ class StubAgent:
 
         value += self.check_value(board)
         lm = self.legal_moves(board)
-        print(lm)
+        #print(lm)
         value += lm
 
 
