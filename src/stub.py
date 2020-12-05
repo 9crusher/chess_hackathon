@@ -79,6 +79,9 @@ class StubAgent:
         global_score = -1e8 if self.is_white else 1e8
         chosen_move = None
 
+        print(str(board))
+        print()
+
         if str(board) in self.opens:
             chosen_move = self.opens[str(board)]
         else:
@@ -177,8 +180,8 @@ def get_piece_utility(piece):
 
 def openings():
     return {
-        str(chess.STARTING_FEN):"e2e4", #Berlin Defense
-        str(chess.Board("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1")):"e7e5",
-        str(chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2")):"g1f3",
-        str(chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2")):"b8c6"
+        str(chess.Board(chess.STARTING_FEN)):chess.Move.from_uci("e2e4"), #Berlin Defense
+        str(chess.Board("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1")):chess.Move.from_uci("e7e5"),
+        str(chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2")):chess.Move.from_uci("g1f3"),
+        str(chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2")):chess.Move.from_uci("b8c6")
     }
