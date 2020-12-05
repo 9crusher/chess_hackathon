@@ -80,7 +80,7 @@ class StubAgent:
         chosen_move = None
 
         if str(board) in self.opens:
-            chosen_move = self.opens(str(board))
+            chosen_move = self.opens[str(board)]
         else:
             for move in board.legal_moves:
                 board.push(move)
