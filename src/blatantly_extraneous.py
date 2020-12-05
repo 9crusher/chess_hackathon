@@ -1,7 +1,7 @@
 import chess
 
 
-class StubAgent:
+class BlatantlyExtraneous:
     """
     Your agent class. Please rename this to {TeamName}Agent, and this file to {TeamName}.py
     """
@@ -60,9 +60,9 @@ class StubAgent:
         global_score = -1e8 if self.is_white else 1e8
         chosen_move = None
         
-        if (board in opening){
-
-        }else {
+        if (board in self.opening){
+            print("Test")
+        } else {
             for move in board.legal_moves:
             board.push(move)
 
