@@ -1,6 +1,5 @@
 import chess
 
-
 class StubAgent:
     """
     Your agent class. Please rename this to {TeamName}Agent, and this file to {TeamName}.py
@@ -9,12 +8,15 @@ class StubAgent:
 
     cache = {}
 
+    opens = {}
+
     def __init__(self, is_white):
         """
         Constructor, initialize your fields here.
         :param is_white: Initializes the color of the agent.
         """
         self.is_white = is_white
+        self.opens = openings()
 
     @staticmethod
     def get_team_name():
@@ -65,20 +67,23 @@ class StubAgent:
         global_score = -1e8 if self.is_white else 1e8
         chosen_move = None
 
-        for move in board.legal_moves:
-            board.push(move)
+        if str(board) in self.opens:
+            chosen_move = self.opens(str(board))
+        else:
+            for move in board.legal_moves:
+                board.push(move)
 
-            local_score = self.minimax(board, self.depth - 1, not self.is_white, -1e8, 1e8)
-            self.cache[hash_board(board, self.depth - 1, not self.is_white)] = local_score
+                local_score = self.minimax(board, self.depth - 1, not self.is_white, -1e8, 1e8)
+                self.cache[hash_board(board, self.depth - 1, not self.is_white)] = local_score
 
-            if self.is_white and local_score > global_score:
-                global_score = local_score
-                chosen_move = move
-            elif not self.is_white and local_score < global_score:
-                global_score = local_score
-                chosen_move = move
+                if self.is_white and local_score > global_score:
+                    global_score = local_score
+                    chosen_move = move
+                elif not self.is_white and local_score < global_score:
+                    global_score = local_score
+                    chosen_move = move
 
-            board.pop()
+                board.pop()
 
         return chosen_move
 
@@ -157,3 +162,11 @@ def get_piece_utility(piece):
     elif lower == 'k':
         score *= 1_000_000
     return score
+
+def openings():
+    return {
+        str(chess.STARTING_FEN):"e2e4", #Berlin Defense
+        str(chess.Board("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1")):"e7e5",
+        str(chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2")):"g1f3",
+        str(chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2")):"b8c6"
+    }
