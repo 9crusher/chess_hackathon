@@ -23,6 +23,14 @@ class StubAgent:
         """
         return "stub"
 
+    def check_value(self, board):
+        if board.is_check():
+            if board.turn == chess.WHITE and self.is_white or (board.turn == chess.BLACK and not self.is_white):
+                return -20
+            else:
+                return 20
+        return 0
+
     def heuristic(self, board):
         """
         Determine whose favor the board is in, and by how much.
@@ -39,12 +47,8 @@ class StubAgent:
             for square in chess.SQUARES
         )
 
-        # Is in check
-        if board.is_check():
-            if board.turn == chess.WHITE and self.is_white or (board.turn == chess.BLACK and not self.is_white):
-                value -= 20
-            else:
-                value += 20
+        value += self.check_value(board)
+
 
         # If this is a draw, value is 0 (same for both players)
         if board.can_claim_draw():
