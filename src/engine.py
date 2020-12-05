@@ -5,7 +5,7 @@ import chess
 import chess.engine
 import chess.svg
 
-from blatantly_extraneous import BlatantlyExtraneous
+from blatantlyExtraneous import BlatantlyExtraneous
 
 def play():
     board = chess.Board()
