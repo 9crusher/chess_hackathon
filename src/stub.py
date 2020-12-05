@@ -21,7 +21,7 @@ class StubAgent:
         """
         Report your team name. Used for scoring purposes.+
         """
-        return "stub"
+        return "blatantly extraneous"
 
     def check_value(self, board):
         if board.is_check():
@@ -30,6 +30,15 @@ class StubAgent:
             else:
                 return 20
         return 0
+
+    def legal_moves(self, board):
+        original = board.turn
+        board.turn = chess.WHITE
+        white_moves = len(list(board.legal_moves))
+        board.turn = chess.BLACK
+        black_moves = len(list(board.legal_moves))
+        board.turn = original
+        return white_moves - black_moves if self.is_white else black_moves - white_moves
 
     def heuristic(self, board):
         """
@@ -48,6 +57,9 @@ class StubAgent:
         )
 
         value += self.check_value(board)
+        lm = self.legal_moves(board)
+        print(lm)
+        value += lm
 
 
         # If this is a draw, value is 0 (same for both players)
